@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kindle Dashboard</title>
+  <style type="text/css">
+body {
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1072px;
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+}
+#time {
+  margin: 0;
+  padding: 0 10px;
+  border-bottom: 1px solid #000;
+  font-size: 6em;
+  line-height: 1;
+}
+#time span {
+  float: right;
+  margin: 10px 0;
+  font-size: 0.4em;
+  text-align: right;
+}
+p {
+  margin: 5px 0;
+}
+#todo {
+  width: 98%;
+  height: 85px;
+  padding-left: 10px;
+  border: none;
+  border-bottom: 1px solid #000;
+}
+#news {
+  min-height: 90px;
+  padding-left: 10px;
+  border-bottom: 1px solid #000;
+
+}
+
+#weather {
+  text-align: center;
+  overflow-y: hidden;
+}
+
+#preview {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #fff;
+  font-size: 1.25em;
+}
+#preview:target {
+  display: block;
+}
+#close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 10px;
+  font-size: 2em;
+}
+
+@media (min-width: 601px) {
+  #todo {
+    float: right;
+    width: 36%;
+    border-left: 1px solid #000;
+  }
+}
+  </style>
+</head>
+<body>
+  <h1 id="time"></h1>
+  <div id="weather"><img id="meteo" src="" alt=""></div>
+  <div id="calendar">
+    <h2>Lịch trình</h2>
+    <ul id="calendar-events"></ul>
+  </div>
+  <script type="text/javascript">
+// Clock
+
+var offset = 10; // offset in minutes
+var days = ['Chủ Nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+var months = ['Tháng một', 'Tháng hai', 'Tháng ba', 'Tháng tư', 'Tháng năm', 'Tháng sáu', 'Tháng bảy', 'Tháng tám', 'Tháng chín', 'Tháng mười', 'Tháng mười một', 'Tháng mười hai'];
+function tick() {
+  var today = new Date();
+  var mo = months[today.getMonth()];
+  var d = today.getDate();
+  var dw = days[today.getDay()];
+  var h = today.getHours();
+  var m = today.getMinutes();
+  document.getElementById('time').innerHTML = h + ':' + (m < 10 ? '0' : '') + m + ' <span>' + dw + '<br>' + d + '. ' + mo + '</span>';
+
+}
+tick();
+setInterval(tick, 60*1000);
+
+async function fetchGoogleCalendar() {
+  const calendarId = 'YOUR_CALENDAR_ID@group.calendar.google.com';
+  const url = `https://www.googleapis.com/calendar/v3/calendars/${thanhtruc1903@gmail.com}/events?key=${795958216350-qkc8fd53fumf63bstde1jf5j48q5f3tu.apps.googleusercontent.com}&timeMin=${new Date().toISOString()}`;
+  
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const events = data.items || [];
+      const eventList = document.getElementById('calendar-events');
+      
+      events.forEach(event => {
+          const li = document.createElement('li');
+          li.innerText = `${event.summary} - ${new Date(event.start.dateTime).toLocaleString()}`;
+          eventList.appendChild(li);
+      });
+  } catch (error) {
+      console.error('Lỗi khi tải Google Calendar:', error);
+  }
+}
+
+
+
+
+
+
+  </script>
+</body>
+</html>
